@@ -22,7 +22,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 				<?php
 					$print=$tweets['text_en'];
 					echo preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$print);
-					$i++;
+					$i++;//
 				?>
 				</p>
 				<?php
