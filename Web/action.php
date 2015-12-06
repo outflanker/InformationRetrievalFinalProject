@@ -1,12 +1,11 @@
 <?php
-
 if(isset($_POST['query']) and !empty($_POST['query'])){
 	$query = $_POST['query'];
 ?>
 	<div class="row">
 		  <?php 
 			//$ch=curl_init('http://outflanker.koding.io:8983/solr/project2/select?q=text_en:'.$query.'&wt=json&rows=1000');
-			$ch=curl_init('http://10.84.16.204:8983/solr/project/select?q=text_en:'.$query.'&wt=json&rows=1000');
+			$ch=curl_init('http://10.84.18.140:8983/solr/project/select?q=text_en:'.$query.'&wt=json&rows=1000');
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 			$result = curl_exec($ch);
 			curl_close($ch);	
@@ -14,18 +13,18 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 			$response=$returnjson['response'];
 			$responseCount=$response['numFound'];	
 			$tweets=$response['docs'];
-			?>
-
-           <div class="col-lg-2">
-               <h3>Show Results by</h3>
-               <ul class="list-group">
-                   <li class="list-group-item"><span class="badge">14</span><button class="btn">Russia</button></li>
-                   <li class="list-group-item"><span class="badge">12</span><button class="btn">ISIS</button></li>
-                   <li class="list-group-item"><span class="badge">2</span><button class="btn">Putin</button></li>
-                   <li class="list-group-item"><span class="badge">50</span><button class="btn">Refugee Crisis</button></li>
-               </ul>
+			?>		   
+           <div class="col-lg-4">               			   
+				<ul class="nav nav-list">
+					<li><label class="tree-toggle nav-header">Bootstrap</label>
+						<ul class="nav nav-list tree">
+							<li><a href="#">JavaScript</a></li>
+							<li><a href="#">CSS</a></li>
+						</ul>
+					</li>
+				</ul>
            </div>
-		   <div class="col-lg-8">
+		   <div class="col-lg-8">		   
 		   <?php
 				for($i=0;$i<$responseCount;$i=$i+2)
 				{
@@ -92,7 +91,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 		   }
 		   ?>
        </div>
-	</div>
+	</div>	
 <?php
 }
 ?>
