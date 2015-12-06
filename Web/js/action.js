@@ -28,5 +28,8 @@ $(document).ready(function(){
 			$('#myContent').html(data);
 		});
 	});
-
+	
+	$("#search-container").on("click",".tree-toggle",function(){
+		$(this).parent().children('ul.tree').toggle(200);    
+	})
 });
