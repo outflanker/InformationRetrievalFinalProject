@@ -25,13 +25,14 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
                    <li class="list-group-item"><span class="badge">50</span><button class="btn">Refugee Crisis</button></li>
                </ul>
            </div>
+		   <div class="col-lg-8">
 		   <?php
 				for($i=0;$i<$responseCount;$i=$i+2)
 				{
 					$tweet1=$tweets[$i];
 					$tweet2=$tweets[$i+1];
-		   ?>
-		   <div class="col-lg-8">
+		   ?>		
+			<div class="row">
 			   <div class="col-lg-6">
 				   <div class="panel panel-default">
 					   <div class="panel-heading"><a href="https://twitter.com/statuses/<?php echo $tweet1['id'];?>"><?php echo $tweet1['user_screen_name']; ?></a></div>
@@ -86,12 +87,12 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 					   </div>
 				   </div>
 			   </div>
-		   </div>	
+		   	</div>
 		   <?php
 		   }
 		   ?>
        </div>
-	
+	</div>
 <?php
 }
 ?>
