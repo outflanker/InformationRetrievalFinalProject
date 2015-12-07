@@ -7,8 +7,7 @@ $(document).ready(function(){
 			$('#search-container').html(data);
 		});
 	}
-	function searchtags(){
-		var query = $('#query').val();
+	function searchtags(query){		
 		var query="http://10.84.18.140:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:"+query;
 		$.post('action.php', {query: query}, function(data){
 			$('#search-container').html(data);
@@ -39,5 +38,9 @@ $(document).ready(function(){
 	
 	$("#search-container").on("click",".tree-toggle",function(){
 		$(this).parent().children('ul.tree').toggle(200);    
+	})
+	
+	$("#search-container").on("click",".hashtag",function(){
+		searchTags($(this).text()replace('#', '')))
 	})
 });
