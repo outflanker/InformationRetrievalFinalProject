@@ -50,7 +50,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 						   <p>
 								<?php 
 								$tweettext= preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$tweet1['text_en']);
-								$tweettext= preg_replace("/#([a-z_0-9]+)/i", "<a href=\"".$url."select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:$1\">$0</a>", $tweettext);
+								$tweettext= preg_replace("/#([a-z_0-9]+)/i", "<a href=\"".$url."select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:$1\" class=\"hashtag\">$0</a>", $tweettext);
 								echo preg_replace("/@(\w+)/i", "<a href=\"http://twitter.com/$1\">$0</a>", $tweettext);
 								?> 
 							</p>
@@ -77,7 +77,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 						   <p>
 								<?php 
 								$tweettext= preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$tweet2['text_en']);
-								$tweettext= preg_replace("/#([a-z_0-9]+)/i", "<a href=\"".$url."select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:$1\">$0</a>", $tweettext);
+								$tweettext= preg_replace("/#([a-z_0-9]+)/i", "<a href=\"".$url."select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:$1\" class=\"hashtag\">$0</a>", $tweettext);
 								echo preg_replace("/@(\w+)/i", "<a href=\"http://twitter.com/$1\">$0</a>", $tweettext);
 								?> 
 							</p>
