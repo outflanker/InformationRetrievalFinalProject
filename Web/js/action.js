@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 	function search(){
 		var query = $('#query').val();
-		var query="http://10.84.18.140:8983/solr/project/select?q.alt=text_en:"+query;
+		var query="http://10.84.17.48:8983/solr/project/select?q.alt=text_en:"+query;
 		$.post('action.php', {query: query}, function(data){
 			$('#search-container').html(data);
 		});
@@ -10,9 +10,9 @@ $(document).ready(function(){
 	function searchtags(query,isHashTag){
 		alert(query);
 		if(isHashTag)
-			var query="http://10.84.18.140:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:"+query;
+			var query="http://10.84.17.48:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:"+query;
 		else
-			var query="http://10.84.18.140:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=content_tags:"+query;
+			var query="http://10.84.17.48:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=content_tags:"+query;
 		$.post('action.php', {query: query}, function(data){
 			$('#search-container').html(data);
 		});
