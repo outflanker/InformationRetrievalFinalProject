@@ -1,6 +1,6 @@
 <?php
 if(isset($_POST['query']) and !empty($_POST['query'])){
-	$query = $_POST['query'];
+	$query = $_POST['query'];	
 ?>
 	<div class="row">
 		  <?php 
