@@ -88,7 +88,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 							   <?php
 									foreach($tweet2['content_tags'] as $tag){
 								?>
-									<li><button class="btn btn-sm tags"><?php echo $tag; ?></button></li>
+									<li><button class="btn btn-sm tags"><?php echo substr($tag,0,strpos($tag,",")); ?></button></li>
 								<?php
 								}
 								}
