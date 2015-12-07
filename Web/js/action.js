@@ -2,6 +2,14 @@ $(document).ready(function(){
 
 	function search(){
 		var query = $('#query').val();
+		var query="http://10.84.18.140:8983/solr/project/select?q.alt=text_en:"+query;
+		$.post('action.php', {query: query}, function(data){
+			$('#search-container').html(data);
+		});
+	}
+	function searchtags(){
+		var query = $('#query').val();
+		var query="http://10.84.18.140:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:"+query;
 		$.post('action.php', {query: query}, function(data){
 			$('#search-container').html(data);
 		});

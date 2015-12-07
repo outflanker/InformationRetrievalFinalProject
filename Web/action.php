@@ -4,8 +4,8 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 ?>
 	<div class="row">
 		  <?php 
-			//$ch=curl_init('http://outflanker.koding.io:8983/solr/project2/select?q=text_en:'.$query.'&wt=json&rows=1000');
-			$ch=curl_init('http://10.84.18.140:8983/solr/project/select?q=text_en:'.$query.'&wt=json&rows=1000');
+			$url="http://10.84.18.140:8983/solr/project/";
+			$ch=curl_init($query);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 			$result = curl_exec($ch);
 			curl_close($ch);	
@@ -13,15 +13,26 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 			$response=$returnjson['response'];
 			$responseCount=$response['numFound'];	
 			$tweets=$response['docs'];
+			
+			$facets=$returnjson['facet_counts'];
 			?>		   
-           <div class="col-lg-4">               			   
+           <div class="col-lg-4">       
+				<h4>Show results by:</h4>			
 				<ul class="nav nav-list">
-					<li><label class="tree-toggle nav-header">Bootstrap</label>
+				<?php 
+					foreach($facets['facet_fields'] as $facets=>$values){
+				?>
+					<li><label class="tree-toggle nav-header"><?php echo $facets;?></label>
 						<ul class="nav nav-list tree">
-							<li><a href="#">JavaScript</a></li>
-							<li><a href="#">CSS</a></li>
+						<?php
+							for($j=0;$j<count($values);$j+=2){
+						?>
+							<li><a><?php echo $values[$j]."...(".$values[$j+1].")"; }?></a></li>
 						</ul>
 					</li>
+				<?php
+				}
+				?>
 				</ul>
            </div>
 		   <div class="col-lg-8">		   
@@ -39,7 +50,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 						   <p>
 								<?php 
 								$tweettext= preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$tweet1['text_en']);
-								$tweettext= preg_replace("/#([a-z_0-9]+)/i", "<a href=\"http://twitter.com/search/$1\">$0</a>", $tweettext);
+								$tweettext= preg_replace("/#([a-z_0-9]+)/i", "<a href=\"".$url."select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:$1\">$0</a>", $tweettext);
 								echo preg_replace("/@(\w+)/i", "<a href=\"http://twitter.com/$1\">$0</a>", $tweettext);
 								?> 
 							</p>
@@ -65,8 +76,8 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 					   <div class="panel-body">
 						   <p>
 								<?php 
-								$tweettext= preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$tweet1['text_en']);
-								$tweettext= preg_replace("/#([a-z_0-9]+)/i", "<a href=\"http://twitter.com/search/$1\">$0</a>", $tweettext);
+								$tweettext= preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$tweet2['text_en']);
+								$tweettext= preg_replace("/#([a-z_0-9]+)/i", "<a href=\"".$url."select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:$1\">$0</a>", $tweettext);
 								echo preg_replace("/@(\w+)/i", "<a href=\"http://twitter.com/$1\">$0</a>", $tweettext);
 								?> 
 							</p>
