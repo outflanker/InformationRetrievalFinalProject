@@ -40,7 +40,8 @@ $(document).ready(function(){
 		$(this).parent().children('ul.tree').toggle(200);    
 	})
 	
-	$("#search-container").on("click",".hashtag",function(){
-		searchTags($(this).text()replace('#', '')))
+	$("#search-container").on("click",".hashtag",function(e){
+		e.preventDefault();
+		searchtags($(this).text().slice(1));
 	})
 });
