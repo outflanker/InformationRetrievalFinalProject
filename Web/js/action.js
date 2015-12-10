@@ -1,30 +1,33 @@
-$(document).ready(function(){
-
-	function search(){
-		var query = $('#query').val();
+$(document).ready(function(){	
+	function search(id){		
+		var query = $("#"+id).val();		
+		document.cookie= query;		
 		var query="http://10.84.17.48:8983/solr/project/select?q.alt=text_en:"+query;
+		$("#search-col").hide();
+		$("#search-col-small").show();
 		$.post('action.php', {query: query}, function(data){
 			$('#search-container').html(data);
 		});
 	}
 	function searchtags(query,isHashTag){
-		alert(query);
+		document.cookie= document.cookie + query;		
 		if(isHashTag)
 			var query="http://10.84.17.48:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:"+query;
 		else
 			var query="http://10.84.17.48:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=content_tags:"+query;
+		
 		$.post('action.php', {query: query}, function(data){
 			$('#search-container').html(data);
 		});
 	}
 
-	$(document).on('click', '#submit', function() {
-		search();
+	$(document).on('click', '.submit', function() {
+		search($(this).attr("id"));
 	});
 	
-	$(document).on('keyup', '#query', function(e) {
+	$(document).on('keyup', '.query', function(e) {
 		if(e.keyCode == 13){
-			search();
+			search($(this).attr("id"));
 		}
 	});
 	
