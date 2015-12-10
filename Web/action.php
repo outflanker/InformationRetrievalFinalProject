@@ -1,6 +1,15 @@
 <?php
 if(isset($_POST['query']) and !empty($_POST['query'])){
-	$query = $_POST['query'];	
+	$query = $_POST['query'];
+	$facetNames = array(
+		"lang"=>"Language",
+		"en"=>"English",
+		"de"=>"German",
+		"ru"=>"Russian",
+		"es"=>"Spanish",
+		"fr"=>"French",
+		"ar"=>"Arabic"
+	);
 ?>
 	<div class="row">
 		  <?php 
@@ -16,7 +25,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 			
 			$facets=$returnjson['facet_counts'];
 			?>		   
-           <div class="col-lg-4">       
+           <div class="col-lg-3">       
 				<h4>Show results by:</h4>			
 				<ul class="nav nav-list">
 				<?php 
@@ -26,8 +35,12 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 						<ul class="nav nav-list tree">
 						<?php
 							for($j=0;$j<count($values);$j+=2){
+								$facetName=$values[$j];
+								if(array_key_exists($values[$j],$facetNames)){
+									$facetName=$facetNames[$facetName];
+								}															
 						?>
-							<li><a><?php echo $values[$j]."...(".$values[$j+1].")"; }?></a></li>
+							<li><a><?php echo $facetName."...(".$values[$j+1].")"; }?></a></li>
 						</ul>
 					</li>
 				<?php
