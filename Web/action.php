@@ -8,7 +8,10 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 		"ru"=>"Russian",
 		"es"=>"Spanish",
 		"fr"=>"French",
-		"ar"=>"Arabic"
+		"ar"=>"Arabic",
+		"tweet_hashtags"=>"Tweet Hashtags",
+		"content_tags"=>"Content Tags",
+		"location"=>"Location"
 	);
 ?>
 	<div class="row">
@@ -30,8 +33,12 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 				<ul class="nav nav-list">
 				<?php 
 					foreach($facets['facet_fields'] as $facets=>$values){
+						$facetHeader=$facets;
+						if(array_key_exists($facetHeader,$facetNames)){
+									$facetHeader=$facetNames[$facetHeader];
+								}
 				?>
-					<li><label class="tree-toggle nav-header"><?php echo $facets;?></label>
+					<li><label class="tree-toggle nav-header facetHeader"><?php echo $facetHeader;?></label>
 						<ul class="nav nav-list tree">
 						<?php
 							for($j=0;$j<count($values);$j+=2){
@@ -40,7 +47,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 									$facetName=$facetNames[$facetName];
 								}															
 						?>
-							<li><a><?php echo $facetName."...(".$values[$j+1].")"; }?></a></li>
+							<li><a href="#" class="facet"><?php echo $facetName."(".$values[$j+1].")"; }?></a></li>
 						</ul>
 					</li>
 				<?php
@@ -119,3 +126,4 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 <?php
 }
 ?>
+<div class="modal"></div>
