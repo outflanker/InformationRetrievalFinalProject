@@ -2,8 +2,8 @@ $(document).ready(function(){
 	function search(id){		
 		var query = $("#"+id).val();
 		$("#querySmall").val(query);		
-		document.cookie = "text_en:"+query;		
-		var query="http://ufkk59b06f3a.farhahum.koding.io:8983/solr/project/select?q.alt=text_en:"+query;
+		query = "text_en:("+query+")";	
+        document.cookie	= query;
 		$("#search-col").hide();
 		$("#search-col-small").show();		
 		$.post('action.php', {query: query}, function(data){
@@ -13,14 +13,14 @@ $(document).ready(function(){
 	function searchtags(query,isHashTag){
 		document.cookie= query;		
 		if(isHashTag){
-			document.cookie = "tweet_hashtags:"+query;
-			var query="http://ufkk59b06f3a.farhahum.koding.io:8983/:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=tweet_hashtags:"+query;
+			query = "tweet_hashtags:"+query;
+			document.cookie = query;
 		}
 		else{
-			document.cookie = "content_tags:"+query;
-			var query="http://ufkk59b06f3a.farhahum.koding.io:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=content_tags:"+query;
+			query = "content_tags:"+query;
+			document.cookie = query;
 		}
-		alert(document.cookie);
+		alert("SEARCHTAG"+document.cookie);
 		$.post('action.php', {query: query}, function(data){
 			$('#search-container').html(data);
 		});
@@ -86,8 +86,11 @@ $(document).ready(function(){
 			facetHeader = dict[facetHeader];
 		
 		e.preventDefault();
-		document.cookie = document.cookie +", "+ facetHeader + ":" + facet;		
-		alert(document.cookie);
+		query = document.cookie + "+AND+" + facetHeader + ":" + facet;	
+        document.cookie=query;
+		$.post('action.php', {query: query}, function(data){
+			$('#search-container').html(data);
+		});		
 	})
 	
 });
@@ -95,5 +98,5 @@ $body = $("body");
 
 $(document).on({
     ajaxStart: function() { $body.addClass("loading");    },
-     ajaxStop: function() { $body.removeClass("loading"); }    
+    ajaxStop: function() { $body.removeClass("loading"); }    
 });
