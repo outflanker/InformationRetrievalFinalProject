@@ -16,11 +16,9 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 ?>
 	<div class="row">
 		  <?php 
-			echo $query;
 			$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=";
 			$query=urlencode($query);
 			$query=$url.$query;
-			echo $query;
 			$ch=curl_init($query);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 			$result = curl_exec($ch);
