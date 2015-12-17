@@ -2,8 +2,7 @@ $(document).ready(function(){
 	function search(id){		
 		var query = $("#"+id).val();
 		$("#querySmall").val(query);
-		if(typeof query === 'undefined'){
-			alert("Query is empty! Please enter again!");
+		if(typeof query === 'undefined'){			
 			return;
 		}
 		query=encodeURIComponent(query);
@@ -17,7 +16,7 @@ $(document).ready(function(){
 		querytmp = querytmp + "text_ar:("+query+")";
 		query="("+querytmp+")";
 	
-        document.cookie	= query;
+        document.cookie	= query;		
 		$("#search-col").hide();
 		$("#search-col-small").show();		
 		$.post('action.php', {query: query}, function(data){
@@ -41,8 +40,9 @@ $(document).ready(function(){
 		});
 	}
 
-	$(document).on('click', '.submit', function() {
-		search($(this).attr("id"));
+	$(document).on('click', '.submit', function() {		
+		search($(this).parent().prev().attr("id"));
+		alert($(this).parent().prev().attr("id"));
 	});
 	
 	$(document).on('keyup', '.query', function(e) {
@@ -101,7 +101,8 @@ $(document).ready(function(){
 			facetHeader = dict[facetHeader];
 		
 		e.preventDefault();
-		query = document.cookie + "+AND+(+" + facetHeader + ":" + facet+")";	
+		facet=encodeURIComponent(facet);
+		query = document.cookie + "+AND+(+" + facetHeader + ":\"" + facet+"\")";
         document.cookie=query;
 		$.post('action.php', {query: query}, function(data){
 			$('#search-container').html(data);
