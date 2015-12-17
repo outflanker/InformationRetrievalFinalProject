@@ -41,8 +41,7 @@ $(document).ready(function(){
 	}
 
 	$(document).on('click', '.submit', function() {		
-		search($(this).parent().prev().attr("id"));
-		alert($(this).parent().prev().attr("id"));
+		search($(this).parent().prev().attr("id"));		
 	});
 	
 	$(document).on('keyup', '.query', function(e) {
