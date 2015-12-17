@@ -18,7 +18,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 		  <?php 
 			$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&qf=";
 			//$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=";
-			
+			//
 			require_once("./includes/alchemyapi/alchemyapi.php");
 			
 			$alchemyapi = new AlchemyAPI();
