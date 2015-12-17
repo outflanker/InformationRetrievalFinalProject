@@ -7,16 +7,16 @@ $(document).ready(function(){
 			return;
 		}
 		query=encodeURIComponent(query);
-		query = "text_en:("+query+")";
-	/*
+		//query = "text_ru:("+query+")";
+	
 		var querytmp = "text_en:("+query+")" + "+OR+";	
 		querytmp = querytmp + "text_de:("+query+")"+ "+OR+";	
 		querytmp = querytmp + "text_ru:("+query+")"+ "+OR+";	
 		querytmp = querytmp + "text_es:("+query+")"+ "+OR+";
 		querytmp = querytmp + "text_fr:("+query+")"+ "+OR+";
 		querytmp = querytmp + "text_ar:("+query+")";
-		query=querytmp;
-	*/
+		query="("+querytmp+")";
+	
         document.cookie	= query;
 		$("#search-col").hide();
 		$("#search-col-small").show();		
@@ -35,6 +35,7 @@ $(document).ready(function(){
 			query = "content_tags:"+query;
 			document.cookie = query;
 		}
+		query="("+query+")";
 		$.post('action.php', {query: query}, function(data){
 			$('#search-container').html(data);
 		});
@@ -100,7 +101,7 @@ $(document).ready(function(){
 			facetHeader = dict[facetHeader];
 		
 		e.preventDefault();
-		query = document.cookie + "+AND+" + facetHeader + ":" + facet;	
+		query = document.cookie + "+AND+(+" + facetHeader + ":" + facet+")";	
         document.cookie=query;
 		$.post('action.php', {query: query}, function(data){
 			$('#search-container').html(data);
