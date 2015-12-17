@@ -16,45 +16,46 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 ?>
 	<div class="row">
 		  <?php 
-			$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=";
-			/*
+			$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&qf=";
+			
+			require_once("./includes/alchemyapi/alchemyapi.php");
+			
 			$alchemyapi = new AlchemyAPI();
 			$response = $alchemyapi->language('text', $query,null);
 			
 			if ($response['status'] == 'OK') {
-			$detectedLanguage = $response['language'];
+				$detectedLanguage = $response['language'];
 			} else {
-			$detectedLanguage = 'English'
+				$detectedLanguage = 'English';
 			}
 			$queryString = null;
-			if($detectedLanguage == 'English')
+		    if($detectedLanguage == 'German')
 			{
-				$queryString = 'text_en^5.0';
-			}
-			else if($detectedLanguage == 'German')
-			{
-				$queryString = 'text_de^5.0';
+				$queryString = "text_de^5.0+text_en+text_ru+text_fr+text_es+text_ar+tweet_hashtags";
 			}
 			else if($detectedLanguage == 'Spanish')
 			{
-				$queryString = 'text_es^5';
+				$queryString = "text_es^5+text_en+text_ru+text_de+text_fr+text_ar+tweet_hashtags";
 			}
 			else if($detectedLanguage == 'Russian')
 			{
-				$queryString = 'text_ru^5';
+				$queryString = "text_ru^5+text_en+text_de+text_fr+text_es+text_ar+tweet_hashtags";
 			}
 			else if($detectedLanguage == 'French')
 			{
-				$queryString = 'text_fr^5';
+				$queryString = "text_fr^5+text_en+text_ru+text_de+text_es+text_ar+tweet_hashtags";
 			}
 			else if($detectedLanguage == 'Arabic')
 			{
-				$queryString = 'text_ar^5';
+				$queryString = "text_ar^5+text_en+text_ru+text_de+text_fr+text_es+tweet_hashtags";
 			}
-			*/
+			else
+			{
+				$queryString = "text_en^5.0+text_ru+text_de+text_fr+text_es+text_ar+tweet_hashtags";
+			}
+
 			
-			//$query=urlencode($query);
-			$query=$url.$query;
+			$query=$url.$queryString."&q.alt=".$query;
 			echo $query;
 			$ch=curl_init($query);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
