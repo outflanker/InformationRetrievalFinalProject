@@ -1,8 +1,18 @@
 $(document).ready(function(){	
 	function search(id){		
 		var query = $("#"+id).val();
-		$("#querySmall").val(query);		
-		query = "text_en:("+query+")";	
+		$("#querySmall").val(query);
+		query=encodeURIComponent(query);
+		//query = "text_en:("+query+")";
+
+		var querytmp = "text_en:("+query+")" + "+OR+";	
+		querytmp = querytmp + "text_de:("+query+")"+ "+OR+";	
+		querytmp = querytmp + "text_ru:("+query+")"+ "+OR+";	
+		querytmp = querytmp + "text_es:("+query+")"+ "+OR+";
+		querytmp = querytmp + "text_fr:("+query+")"+ "+OR+";
+		querytmp = querytmp + "text_ar:("+query+")";
+		query=querytmp;
+	
         document.cookie	= query;
 		$("#search-col").hide();
 		$("#search-col-small").show();		
@@ -17,10 +27,10 @@ $(document).ready(function(){
 			document.cookie = query;
 		}
 		else{
+			query=encodeURIComponent(query);
 			query = "content_tags:"+query;
 			document.cookie = query;
 		}
-		alert("SEARCHTAG"+document.cookie);
 		$.post('action.php', {query: query}, function(data){
 			$('#search-container').html(data);
 		});

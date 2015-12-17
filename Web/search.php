@@ -5,7 +5,7 @@
                    <div class="row">                        
                        <div class="col-lg-4">
                            <div style="float:left">
-                               <img src="Logo.png" />
+                               <img src="Untitled1.png" />
                            </div>                           
                        </div>
                    </div>                   

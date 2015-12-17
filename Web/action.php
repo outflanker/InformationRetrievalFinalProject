@@ -17,8 +17,45 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 	<div class="row">
 		  <?php 
 			$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=";
-			$query=urlencode($query);
+			/*
+			$alchemyapi = new AlchemyAPI();
+			$response = $alchemyapi->language('text', $query,null);
+			
+			if ($response['status'] == 'OK') {
+			$detectedLanguage = $response['language'];
+			} else {
+			$detectedLanguage = 'English'
+			}
+			$queryString = null;
+			if($detectedLanguage == 'English')
+			{
+				$queryString = 'text_en^5.0';
+			}
+			else if($detectedLanguage == 'German')
+			{
+				$queryString = 'text_de^5.0';
+			}
+			else if($detectedLanguage == 'Spanish')
+			{
+				$queryString = 'text_es^5';
+			}
+			else if($detectedLanguage == 'Russian')
+			{
+				$queryString = 'text_ru^5';
+			}
+			else if($detectedLanguage == 'French')
+			{
+				$queryString = 'text_fr^5';
+			}
+			else if($detectedLanguage == 'Arabic')
+			{
+				$queryString = 'text_ar^5';
+			}
+			*/
+			
+			//$query=urlencode($query);
 			$query=$url.$query;
+			echo $query;
 			$ch=curl_init($query);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 			$result = curl_exec($ch);
@@ -26,6 +63,11 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 			$returnjson=json_decode($result,true);
 			$response=$returnjson['response'];
 			$responseCount=$response['numFound'];	
+			if($responseCount==0){
+			?>
+			<p>There are somethings that we can't search</p>
+			<?php
+			}else{			
 			$tweets=$response['docs'];
 			
 			$facets=$returnjson['facet_counts'];
@@ -121,6 +163,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 			   </div>
 		   	</div>
 		   <?php
+		   }
 		   }
 		   ?>
        </div>
