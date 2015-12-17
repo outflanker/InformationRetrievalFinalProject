@@ -10,7 +10,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 		"fr"=>"French",
 		"ar"=>"Arabic",
 		"tweet_hashtags"=>"Tweet Hashtags",
-		"content_tags"=>"Content Tags",
+		"content_tags_orig"=>"Content Tags",
 		"location"=>"Location"
 	);
 ?>
@@ -92,7 +92,10 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 								$facetName=$values[$j];
 								if(array_key_exists($values[$j],$facetNames)){
 									$facetName=$facetNames[$facetName];
-								}															
+								}
+								if($facetHeader=='Content Tags'){
+									$facetName= substr($facetName,0,strpos($facetName,","));
+								}
 						?>
 							<li><a href="#" class="facet"><?php echo $facetName."(".$values[$j+1].")"; }?></a></li>
 						</ul>
@@ -122,7 +125,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 						   <p>
 								<?php								
 								
-								$tweettext= preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$tweet1['text_'.$tweet1['lang']]);
+								$tweettext= preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$tweet1['text_'.$tweet1['lang']]);								
 								$tweettext= preg_replace("/#([a-z_0-9]+)/i", "<a href=\"#\" class=\"hashtag\">$0</a>", $tweettext);
 								echo preg_replace("/@(\w+)/i", "<a href=\"http://twitter.com/$1\">$0</a>", $tweettext);
 								?> 
