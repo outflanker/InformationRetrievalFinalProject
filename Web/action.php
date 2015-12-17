@@ -16,10 +16,9 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 ?>
 	<div class="row">
 		  <?php 
-			//$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&qf=";
-			$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=";
-			//$url="http://192.168.0.10:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=";
-			/*
+			$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&qf=";
+			//$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=";
+			
 			require_once("./includes/alchemyapi/alchemyapi.php");
 			
 			$alchemyapi = new AlchemyAPI();
@@ -56,11 +55,10 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 				$queryString = "text_en^5.0+text_ru+text_de+text_fr+text_es+text_ar+tweet_hashtags";
 			}
 
-			*/
-			//$query=$url.$queryString."&q.alt=".$query;
+			
+			$query=$url."(+".$queryString.")&q.alt=".$query;			
+			//$query=$url.$query;
 			//echo $query;
-			$query=$url.$query;
-			echo $query;
 			$ch=curl_init($query);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 			$result = curl_exec($ch);
@@ -70,7 +68,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 			$responseCount=$response['numFound'];	
 			if($responseCount==0){
 			?>
-			<h3><p align="middle"></br>We don't seem to be able to find results for the given query.</p></h3>
+			<h3><p align="middle"></br>Oops...Nothing found</p></h3>
 			<?php
 			}else{			
 			$tweets=$response['docs'];
@@ -109,7 +107,12 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 				for($i=0;$i<$responseCount;$i=$i+2)
 				{
 					$tweet1=$tweets[$i];
-					$tweet2=$tweets[$i+1];
+					$isEven = false;
+					if($i+1<$responseCount)
+					{					
+						$tweet2=$tweets[$i+1];
+						$isEven = true;
+					}
 		   ?>		
 			<div class="row">
 			   <div class="col-lg-6">
@@ -117,8 +120,9 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 					   <div class="panel-heading"><a href="https://twitter.com/statuses/<?php echo $tweet1['id'];?>"><?php echo $tweet1['user_screen_name']; ?></a></div>
 					   <div class="panel-body">
 						   <p>
-								<?php 
-								$tweettext= preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$tweet1['text_en']);
+								<?php								
+								
+								$tweettext= preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$tweet1['text_'.$tweet1['lang']]);
 								$tweettext= preg_replace("/#([a-z_0-9]+)/i", "<a href=\"#\" class=\"hashtag\">$0</a>", $tweettext);
 								echo preg_replace("/@(\w+)/i", "<a href=\"http://twitter.com/$1\">$0</a>", $tweettext);
 								?> 
@@ -138,14 +142,18 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 						   </ul>
 					   </div>
 				   </div>
-			   </div>
-			   <div class="col-lg-6">
-				   <div class="panel panel-default">
+			   </div>	
+			   <?php
+					if($isEven)
+					{
+				?>
+			   <div class="col-lg-6">							  
+				   <div class="panel panel-default">					   
 					   <div class="panel-heading"><a href="https://twitter.com/statuses/<?php echo $tweet2['id'];?>"><?php echo $tweet2['user_screen_name']; ?></a></div>
 					   <div class="panel-body">
 						   <p>
 								<?php 
-								$tweettext= preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$tweet2['text_en']);
+								$tweettext= preg_replace('/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0">$0</a>',$tweet2['text_'.$tweet2['lang']]);
 								$tweettext= preg_replace("/#([a-z_0-9]+)/i", "<a href=\"#\" class=\"hashtag\">$0</a>", $tweettext);
 								echo preg_replace("/@(\w+)/i", "<a href=\"http://twitter.com/$1\">$0</a>", $tweettext);
 								?> 
@@ -166,8 +174,11 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 					   </div>
 				   </div>
 			   </div>
+				<?php
+					}
+				?>
 		   	</div>
-		   <?php
+		   <?php					
 		   }
 		   }
 		   ?>
