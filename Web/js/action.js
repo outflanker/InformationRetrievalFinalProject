@@ -2,9 +2,13 @@ $(document).ready(function(){
 	function search(id){		
 		var query = $("#"+id).val();
 		$("#querySmall").val(query);
+		if(typeof query === 'undefined'){
+			alert("Query is empty! Please enter again!");
+			return;
+		}
 		query=encodeURIComponent(query);
-		//query = "text_en:("+query+")";
-
+		query = "text_en:("+query+")";
+	/*
 		var querytmp = "text_en:("+query+")" + "+OR+";	
 		querytmp = querytmp + "text_de:("+query+")"+ "+OR+";	
 		querytmp = querytmp + "text_ru:("+query+")"+ "+OR+";	
@@ -12,7 +16,7 @@ $(document).ready(function(){
 		querytmp = querytmp + "text_fr:("+query+")"+ "+OR+";
 		querytmp = querytmp + "text_ar:("+query+")";
 		query=querytmp;
-	
+	*/
         document.cookie	= query;
 		$("#search-col").hide();
 		$("#search-col-small").show();		
