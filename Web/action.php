@@ -59,7 +59,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 			//$query=$url.$queryString."&q.alt=".$query;
 			//echo $query;
 			$query=$url.$query;
-			echo $query;
+			//echo $query;
 			$ch=curl_init($query);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 			$result = curl_exec($ch);
@@ -69,7 +69,7 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 			$responseCount=$response['numFound'];	
 			if($responseCount==0){
 			?>
-			<h3><p></br>There are somethings that we can't search</p></h3>
+			<h3><p align="middle"></br>We don't seem to be able to find results for the given query.</p></h3>
 			<?php
 			}else{			
 			$tweets=$response['docs'];
