@@ -18,7 +18,8 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 		  <?php 
 			//$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&qf=";
 			$url="http://52.35.194.159:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=";
-			
+			//$url="http://192.168.0.10:8983/solr/project/select?wt=json&indent=true&defType=dismax&q.alt=";
+			/*
 			require_once("./includes/alchemyapi/alchemyapi.php");
 			
 			$alchemyapi = new AlchemyAPI();
@@ -55,11 +56,11 @@ if(isset($_POST['query']) and !empty($_POST['query'])){
 				$queryString = "text_en^5.0+text_ru+text_de+text_fr+text_es+text_ar+tweet_hashtags";
 			}
 
-			
+			*/
 			//$query=$url.$queryString."&q.alt=".$query;
 			//echo $query;
 			$query=$url.$query;
-			//echo $query;
+			echo $query;
 			$ch=curl_init($query);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 			$result = curl_exec($ch);
